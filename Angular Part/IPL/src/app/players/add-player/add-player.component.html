@@ -1,0 +1,23 @@
+<app-navbar></app-navbar>
+
+<div class="container">
+    <form #addplayerform="ngForm" (ngSubmit)="formsubmit(addplayerform.value)">
+        <div class="mb-3 my-5">
+            <label for="exampleInputEmail1" class="form-label">Enter Player Name</label>
+            <input type="text" #playername="ngModel" required class="form-control" name="playername" aria-describedby="emailHelp" ngModel >
+            <span style="color: red;" *ngIf="!playername.valid&&playername.touched">Please enter Player Name</span>
+            <div id="emailHelp" class="form-text"></div>
+        </div>
+        <div class="mb-3">
+            <label for="exampleInputPassword1" class="form-label">Select Team</label>
+            <select name="teamid" #teamid="ngModel" required class="form-select" aria-label="Default select example" ngModel>
+                <option [value]="''" disabled selected>Select a team</option>
+                <option *ngFor="let t of team" value="{{t.tid}}">{{t.teamName}}</option>
+            </select>
+            <span style="color: red;" *ngIf="!teamid.valid&&teamid.touched">Please select Team name</span>
+        </div>
+        <button type="submit" class="btn btn-primary" [disabled]="!addplayerform.valid">Submit</button>
+    </form>
+
+    <h3 *ngIf="addflag" style="color: green;">Player added successfully</h3>
+</div>

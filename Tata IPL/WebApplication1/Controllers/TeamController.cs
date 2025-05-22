@@ -45,5 +45,17 @@ namespace WebApplication1.Controllers
         {
             return Ok(repository.GetTeamByID(tid));
         }
+
+        [HttpPost("AddTeam")]
+        public IActionResult AddTeam([FromBody] Team team)
+        {
+            Team t = team;
+            t.Win=t.Win ?? 0;
+            t.Lose = t.Lose ?? 0;
+            t.Draw = t.Draw ?? 0;
+            _context.Teams.Add(t);
+            _context.SaveChanges();
+            return Ok();
+        }
     }
 }

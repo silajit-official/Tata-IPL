@@ -1,0 +1,28 @@
+<app-navbar></app-navbar>
+
+
+<div class="container my-5">
+    <table class="table table-striped">
+<thead class="table-dark">
+    <tr>
+      <th scope="col">S No.</th>
+      <th scope="col">Team Name</th>
+      <th scope="col">Points</th>
+      <th scope="col">Win</th>
+      <th scope="col">Lose</th>
+      <th scope="col">Draw</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let t of team; let i=index">
+      <th scope="row">{{i+1}}</th>
+      <td>{{t.teamName}}</td>
+      <td>{{t.points}}</td>
+      <td>{{t.win}}</td>
+      <td>{{t.lose}}</td>
+      <td>{{t.draw}}</td>
+    </tr>
+    
+    </tbody>
+</table>
+</div>

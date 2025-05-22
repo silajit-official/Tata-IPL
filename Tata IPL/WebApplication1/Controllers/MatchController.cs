@@ -24,7 +24,7 @@ namespace WebApplication1.Controllers
             List<TeamMatch> teamMatches = new List<TeamMatch>();
             foreach (var item in teams)
             {
-                teamids.Add(item.Tid);
+                teamids.Add(item.Tid??0);
             }
 
             DateTime d = DateTime.Now;
@@ -54,6 +54,8 @@ namespace WebApplication1.Controllers
                     
                 }
             }
+            Random rng = new Random();
+            teamMatches = teamMatches.OrderBy(x => rng.Next()).ToList();
             _context.TeamMatches.AddRange(teamMatches);
             _context.SaveChanges();
             List<TeamMatch> DBTeamMatches = new List<TeamMatch>();
@@ -76,7 +78,7 @@ namespace WebApplication1.Controllers
         [HttpPost("AddMatchDetails")]
         public IActionResult AddMatchDetails([FromBody] MatchDetail matchDetail)
         {
-            MatchDetail detail = (from md in _context.MatchDetails where md.MdTmId == matchDetail.MdTmId select md).ToList()[0];
+            MatchDetail detail = (from md in _context.MatchDetails where md.MdTmId == matchDetail.MdTmId select md).FirstOrDefault();
             if (detail == null)
                 return BadRequest();
             else
@@ -115,6 +117,40 @@ namespace WebApplication1.Controllers
 
                 return Ok();
             }
+        }
+
+        [HttpGet("GetAllMatches")]
+        public IActionResult GetAllMatches()
+        {
+            var match = (from tm in _context.TeamMatches join t1 in _context.Teams on tm.Team1 equals t1.Tid
+                         join t2 in _context.Teams on tm.Team2 equals t2.Tid
+                         select new
+                         {
+                             tid=tm.Tmid,
+                             team1=tm.Team1,
+                             team1Name=t1.TeamName,
+                             team2=tm.Team2,
+                             team2Name=t2.TeamName,
+                             playedon=tm.PlayedOn
+                         }).ToList();
+
+            List<Table_Classes.CustomTeamMatch> teamMatches = new List<Table_Classes.CustomTeamMatch>();
+
+            foreach (var item in match)
+            {
+                Table_Classes.CustomTeamMatch tm = new Table_Classes.CustomTeamMatch();
+                tm.Tmid = item.tid;
+                tm.Team1 = item.team1;
+                tm.Team1_Name = item.team1Name;
+                tm.Team2 = item.team2;
+                tm.Team2_Name = item.team2Name;
+                tm.PlayedOn = item.playedon;
+
+                teamMatches.Add(tm);
+
+            }
+
+            return Ok(teamMatches);
         }
 
     }

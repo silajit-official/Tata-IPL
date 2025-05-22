@@ -38,20 +38,20 @@ namespace WebApplication1.Repository
                                     select p).ToList();
             return (players);
         }
-        public List<Table_Classes.Team> GetTeamByID(int tid)
+        public Table_Classes.Team GetTeamByID(int tid)
         {
-            List<Table_Classes.Team> teams = (from t in _context.Teams
-                                              where t.Tid == tid
-                                              select new Table_Classes.Team
-                                              {
-                                                  Tid = t.Tid,
-                                                  TeamName = t.TeamName,
-                                                  Points = t.Points,
-                                                  Win = t.Win,
-                                                  Lose = t.Lose,
-                                                  Draw = t.Draw
-                                              }
-                      ).ToList();
+            Table_Classes.Team teams = (from t in _context.Teams
+                                        where t.Tid == tid
+                                        select new Table_Classes.Team
+                                        {
+                                            Tid = t.Tid,
+                                            TeamName = t.TeamName,
+                                            Points = t.Points,
+                                            Win = t.Win,
+                                            Lose = t.Lose,
+                                            Draw = t.Draw
+                                        }
+                      ).FirstOrDefault();
 
             return (teams);
 

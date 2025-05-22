@@ -1,0 +1,50 @@
+<div class="container">
+    <a style="color: blue;text-decoration: underline; cursor: pointer;" (click)="myevent()">Go back</a>
+    <br>
+
+    <p style="font-style: italic;">Please enter the details of the match between <b>{{teammatchs.team1_Name}}</b> and
+        <b>{{teammatchs.team2_Name}}</b> played on <b>{{teammatchs.playedOn }}</b>
+    </p>
+
+
+    <div>
+        <form #adddetails="ngForm" (ngSubmit)="formsubmit(adddetails.value)">
+            <div class="mb-3">
+                <label for="exampleInputPassword1" class="form-label">Select Team Who batted first</label>
+                <select name="teamid" #teamid="ngModel" required class="form-select" aria-label="Default select example"
+                    ngModel>
+                    <option [value]="''" disabled selected>Select team who first bat</option>
+                    <option *ngFor="let t of team" value="{{t.tid}}">{{t.teamName}}</option>
+                </select>
+                <span style="color: red;" *ngIf="!teamid.valid&&teamid.touched">Please select Team name</span>
+            </div>
+
+            <div class="mb-3 my-5">
+                <label for="exampleInputEmail1" class="form-label">Select Who was Player of the match</label>
+                <select name="play" #play="ngModel" required class="form-select" aria-label="Default select example"
+                    ngModel>
+                    <option [value]="''" disabled selected>Select a Player</option>
+                    <option *ngFor="let t of player" value="{{t.name}}">{{t.name}}</option>
+                </select>
+                <span style="color: red;" *ngIf="!play.valid&&play.touched">Please select Team name</span>
+                <div id="emailHelp" class="form-text"></div>
+            </div>
+
+            <div class="mb-3 my-5">
+                <label for="exampleInputEmail1" class="form-label">By How many runs team won</label>
+                <input type="number" #run="ngModel" [disabled]="wicket.touched==true && wicket.value" class="form-control" name="run"
+                    aria-describedby="emailHelp" ngModel>
+                <span style="color: red;" *ngIf="!run.valid&&run.touched&&wicket.untouched">Please enter Player Name</span>
+                <div id="emailHelp" class="form-text"></div>
+            </div>
+            <div class="mb-3 my-5">
+                <label for="exampleInputEmail1" class="form-label">By How many wickets team won</label>
+                <input type="number" #wicket="ngModel" [disabled]="run.touched==true && run.value" class="form-control" name="wicket"
+                    aria-describedby="emailHelp" ngModel>
+                <span style="color: red;" *ngIf="!wicket.valid&&wicket.touched&&run.untouched">Please enter Player Name</span>
+                <div id="emailHelp" class="form-text"></div>
+            </div> 
+            <button type="submit" class="btn btn-primary" [disabled]="!adddetails.valid">Submit</button>
+        </form>
+    </div>
+</div>

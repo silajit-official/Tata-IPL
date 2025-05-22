@@ -1,0 +1,29 @@
+<app-navbar></app-navbar>
+
+<div class="container my-5" *ngIf="!addflag && gridflag">
+    <table class="table table-striped">
+<thead class="table-dark">
+    <tr>
+      <th scope="col">S No.</th>
+      <th scope="col">Played on</th>
+      <th scope="col">Team 1</th>
+      <th scope="col">Team 2</th>
+      <th scope="col">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let t of teamMatch; let i=index">
+      <th scope="row">{{i+1}}</th>
+      <td>{{t.playedOn | date:'medium'}}</td>
+      <td>{{t.team1_Name}}</td>
+      <td>{{t.team2_Name}}</td>
+      <td><button class="btn btn-success" (click)="MatchDetail(t)">Add Match details</button></td>
+    </tr>
+    
+    </tbody>
+</table>
+</div>
+<div *ngIf="addflag">
+</div>
+
+<app-add-details *ngIf="addflag && !gridflag" [teammatchs]="temp" (clicks)="customevent($event)"></app-add-details>
